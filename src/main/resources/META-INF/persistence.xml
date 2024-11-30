@@ -1,5 +1,5 @@
 <persistence xmlns="https://jakarta.ee/xml/ns/persistence" version="3.0">
-    <persistence-unit name="chat" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="youtube" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
 <!--        <class>entities.User</class>-->
@@ -8,7 +8,7 @@
         <properties>
             <!-- Database connection settings -->
             <property name="jakarta.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=chat;encrypt=true;trustServerCertificate=true" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=youtube;encrypt=true;trustServerCertificate=true" />
             <property name="jakarta.persistence.jdbc.user" value="ps42473" />
             <property name="jakarta.persistence.jdbc.password" value="875648" />
 
