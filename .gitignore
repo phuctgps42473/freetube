@@ -4,6 +4,7 @@ target/
 !**/src/test/**/target/
 
 src/main/resources/META-INF/persistence.xml
+src/main/java/secret.json
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
