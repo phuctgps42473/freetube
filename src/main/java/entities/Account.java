@@ -1,5 +1,6 @@
 package entities;
 
+import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -18,6 +19,7 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Expose
     @NotNull
     @Email
     @Column(unique = true, nullable = false, length = 100)
@@ -27,6 +29,7 @@ public class Account {
     @Column(nullable = false, length = 100)
     private String hashPassword;
 
+    @Expose
     @Column(unique = true, nullable = false, length = 30)
     @Size(max = 30, min = 4)
     private String username;
@@ -60,7 +63,6 @@ public class Account {
     @OneToMany(mappedBy = "account")
     private List<Comment> commentList = new ArrayList<>();
 
-
     @OneToMany(mappedBy = "account")
     private List<Report> reportList = new ArrayList<>();
 
@@ -68,12 +70,11 @@ public class Account {
     }
 
 
-    public Account(String email, String hashPassword, String username, Role role, List<VideoMeta> videoMetaList, Date createdAt, Date updatedAt, List<Like> likeList, List<Share> shareList, List<Report> reportList) {
+    public Account(String email, String hashPassword, String username, Role role) {
         this.email = email;
         this.hashPassword = hashPassword;
         this.username = username;
         this.role = role;
-        this.videoMetaList = videoMetaList;
     }
 
     public long getId() {
