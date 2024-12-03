@@ -65,6 +65,29 @@
             <version>4.4.0</version>
         </dependency>
 
+<!--        UUID-->
+        <dependency>
+            <groupId>com.benasher44</groupId>
+            <artifactId>uuid-jvm</artifactId>
+            <version>0.8.4</version>
+            <scope>runtime</scope>
+        </dependency>
+
+
+        <!--        REDIS CLIENT -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>5.2.0</version>
+        </dependency>
+
+<!--        OBJECT STORAGE CLIENT-->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>8.5.14</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>Assignment</finalName>

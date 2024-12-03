@@ -14,7 +14,7 @@ import utils.XPassword;
 
 import java.io.IOException;
 
-@WebServlet("/api/sign-up")
+@WebServlet("/api/register")
 public class SignUpHandler extends HttpServlet {
     private static final AccountDAO accountDAO = new AccountDAO();
     private static final Gson gson = new Gson();

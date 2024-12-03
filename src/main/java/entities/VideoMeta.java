@@ -22,6 +22,10 @@ public class VideoMeta {
     @Column(nullable = false, columnDefinition = "nvarchar(255)")
     private String title;
 
+    @Column(nullable = false)
+    private String objectName;
+
+
     @Size(min = 1, max = 2000)
     @Column(columnDefinition = "nvarchar(2000)")
     private String description;
@@ -29,7 +33,7 @@ public class VideoMeta {
     @Column(name = "thumbnail")
     private String thumbnail;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Account uploader;
 
     @CreationTimestamp
@@ -69,13 +73,21 @@ public class VideoMeta {
     public VideoMeta() {
     }
 
-    public VideoMeta(String title, String description, Account uploader, String thumbnail) {
+    public VideoMeta(String title, String description, Account uploader, String thumbnail, String objectName) {
         this.title = title;
         this.description = description;
         this.uploader = uploader;
         this.thumbnail = thumbnail;
+        this.objectName = objectName;
     }
 
+    public String getObjectName() {
+        return objectName;
+    }
+
+    public void setObjectName(String objectName) {
+        this.objectName = objectName;
+    }
 
     @Min(0)
     public long getViewCount() {
