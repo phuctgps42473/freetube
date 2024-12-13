@@ -19,7 +19,7 @@ public class Role {
 
     public static Role createUserRole() {
         Role role = new Role();
-        role.setId(2);
+        role.setId(1);
         role.setRole("user");
         return role;
     }

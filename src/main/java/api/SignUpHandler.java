@@ -22,9 +22,9 @@ public class SignUpHandler extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         SignUpForm form = gson.fromJson(req.getReader(), SignUpForm.class);
-        if (accountDAO.emailAndUsernameExists(form.getEmail(), form.getUsername())) {
-            res.setStatus(HttpServletResponse.SC_CONFLICT);
-            res.getWriter().write(XJsonErrorBody.message("Account with this email already exists"));
+        if (accountDAO.emailOrUsernameExists(form.getEmail(), form.getUsername())) {
+            res.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            res.getWriter().write(XJsonErrorBody.message("Account or username with this email already exists"));
         } else {
             Account account = new Account(form.getEmail(), XPassword.hashPassword(form.getPassword()), form.getUsername(), Role.createUserRole());
             accountDAO.createAccount(account);

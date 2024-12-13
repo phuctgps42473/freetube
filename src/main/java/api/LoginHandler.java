@@ -34,14 +34,10 @@ public class LoginHandler extends HttpServlet {
         if (XPassword.verifyPassword(form.password, account.getHashPassword())) {
             Gson gson = XGson.createGson(true);
 
-            Map<String, String> accessMap = new HashMap<>();
-            accessMap.put("user_id", String.valueOf(account.getId()));
-            accessMap.put("role", account.getRole().getRole());
-            String accessToken = XToken.create(gson.toJson(accessMap), 15);
-
-            Map<String, String> refreshMap = new HashMap<>();
-            accessMap.put("user_id", String.valueOf(account.getId()));
-            String refreshToken = XToken.create(gson.toJson(refreshMap), 60 * 24 * 7);
+            Map<String, String> tokenMap = new HashMap<>();
+            tokenMap.put("account_id", String.valueOf(account.getId()));
+            String accessToken = XToken.create(gson.toJson(tokenMap), 15);
+            String refreshToken = XToken.create(gson.toJson(tokenMap), 60 * 24 * 7);
 
             Cookie refreshCookie = new Cookie("refresh_token", refreshToken);
             refreshCookie.setPath("/");
@@ -51,12 +47,12 @@ public class LoginHandler extends HttpServlet {
 
             try (Jedis jedis = XRedis.getPoolResource()) {
                 String sessionId = UUID.randomUUID().toString();
-                Map<String, Object> user = new HashMap<>();
-                user.put("id", account.getId());
+                Map<String, String> user = new HashMap<>();
+                user.put("account_id", String.valueOf(account.getId()));
                 user.put("username", account.getUsername());
                 user.put("email", account.getEmail());
                 user.put("role", account.getRole().getRole());
-                jedis.set(sessionId, gson.toJson(user));
+                jedis.hset(sessionId, user);
                 jedis.expire(sessionId, 60 * 60 * 2);
 
                 Cookie sessionCookie = new Cookie("ssid", sessionId);
@@ -74,10 +70,14 @@ public class LoginHandler extends HttpServlet {
                 res.getWriter().write(XJsonErrorBody.message("We encountered some errors"));
             }
 
-            String body = XGson.createGson(true).toJson(account);
+            Map<String, String> body = new HashMap<>();
+            body.put("id", String.valueOf(account.getId()));
+            body.put("username", account.getUsername());
+            body.put("email", account.getEmail());
+            body.put("role", account.getRole().getRole());
 
             res.setStatus(HttpServletResponse.SC_OK);
-            res.getWriter().write(body);
+            res.getWriter().write(gson.toJson(body));
         } else {
             res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             res.getWriter().write(XJsonErrorBody.message("Wrong username/email or password"));

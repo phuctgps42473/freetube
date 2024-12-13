@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.checkerframework.checker.units.qual.C;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -34,6 +35,18 @@ public class Account {
     @Size(max = 30, min = 4)
     private String username;
 
+    @Expose
+    @Column(length = 100, nullable = true, name = "profile_image")
+    private String profileImage = "";
+
+    @Expose
+    @Column(nullable = true, length = 300, columnDefinition = "nvarchar")
+    private String bio = "";
+
+    @Expose
+    @Column(nullable = true, length = 300, columnDefinition = "nvarchar")
+    private String address = "";
+
     @ManyToOne
     private Role role;
 
@@ -53,6 +66,22 @@ public class Account {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Date updatedAt;
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     @OneToMany(mappedBy = "account")
     private List<Like> likeList = new ArrayList<>();
@@ -107,6 +136,14 @@ public class Account {
 
     public void setUsername(@Size(max = 30, min = 4) String username) {
         this.username = username;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 
     public Role getRole() {

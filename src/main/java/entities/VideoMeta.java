@@ -1,5 +1,6 @@
 package entities;
 
+import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -13,10 +14,12 @@ import java.util.List;
 @Entity
 @Table(name = "video_metas")
 public class VideoMeta {
+    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Expose
     @Size(min = 1, max = 255)
     @NotNull
     @Column(nullable = false, columnDefinition = "nvarchar(255)")
@@ -26,28 +29,34 @@ public class VideoMeta {
     private String objectName;
 
 
+    @Expose
     @Size(min = 1, max = 2000)
     @Column(columnDefinition = "nvarchar(2000)")
     private String description;
 
-    @Column(name = "thumbnail")
+    @Expose
+    @Column(name = "thumbnail", columnDefinition = "varchar(255)")
     private String thumbnail;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     private Account uploader;
 
+    @Expose
     @CreationTimestamp
     @Column(updatable = false)
     private Date uploadDate;
 
+    @Expose
     @Min(0)
     @Column(name = "view_count", nullable = false)
     private long viewCount = 0;
 
+    @Expose
     @Min(0)
     @Column(name = "like_count", nullable = false)
     private int likeCount = 0;
 
+    @Expose
     @Min(0)
     @Column(name = "share_count", nullable = false)
     private int shareCount = 0;
@@ -64,7 +73,7 @@ public class VideoMeta {
     @OneToMany(mappedBy = "video")
     private List<Share> shareList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "video")
+    @OneToMany(mappedBy = "video", fetch = FetchType.EAGER)
     private List<Comment> Comment = new ArrayList<>();
 
     @OneToMany(mappedBy = "video")
